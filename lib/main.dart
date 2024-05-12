@@ -1,7 +1,3 @@
-
-import 'dart:ffi';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:pedometer/pedometer.dart';
@@ -37,7 +33,6 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _steps = event.steps.toString();
     });
-    // Save the step count when it changes
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('stepCount', int.parse(_steps));
   }
@@ -70,7 +65,6 @@ class _MyAppState extends State<MyApp> {
 
   void initPlatformState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // Retrieve the saved step count when the app is opened
     int savedStepCount = prefs.getInt('stepCount') ?? 0;
     setState(() {
       _steps = savedStepCount.toString();
@@ -101,32 +95,35 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Step counter'),
-          actions: [IconButton(onPressed: (){
-            setState(() {
-               _steps = 0 as String;
-            });
-          }, icon: Icon(Icons.refresh))],
+          actions: [
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    _steps = 0 as String;
+                  });
+                },
+                icon: Icon(Icons.refresh))
+          ],
         ),
         body: Container(
           alignment: Alignment.center,
           child: _permissionGranted
               ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('Steps',
-                  style: TextStyle(
-                      fontSize: _unit.length > 8 ? 32 : 48)),
-              Text(_steps,
-                  style: TextStyle(
-                      fontSize: _steps.length > 5 ? 64 : 128)),
-              const Divider(height: 32, color: Colors.white),
-            ],
-          )
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('Steps',
+                        style: TextStyle(fontSize: _unit.length > 8 ? 32 : 48)),
+                    Text(_steps,
+                        style:
+                            TextStyle(fontSize: _steps.length > 5 ? 64 : 128)),
+                    const Divider(height: 32, color: Colors.white),
+                  ],
+                )
               : const AlertDialog(
-            title: Text('Permission Denied'),
-            content: Text(
-                'You must grant activity recognition permission to use this app'),
-          ),
+                  title: Text('Permission Denied'),
+                  content: Text(
+                      'You must grant activity recognition permission to use this app'),
+                ),
         ),
       ),
     );
