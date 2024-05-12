@@ -101,6 +101,11 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Step counter'),
+          actions: [IconButton(onPressed: (){
+            setState(() {
+               _steps = 0 as String;
+            });
+          }, icon: Icon(Icons.refresh))],
         ),
         body: Container(
           alignment: Alignment.center,
