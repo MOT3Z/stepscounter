@@ -38,7 +38,7 @@ dependencies:
   pedometer: ^4.0.0
   permission_handler: ^9.2.0
   shared_preferences: ^2.2.3
-
+  health: ^9.0.1
 
 
 dev_dependencies:
